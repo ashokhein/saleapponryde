@@ -68,6 +68,7 @@ UserSchema.methods.toProfileJSON = function(){
     email: this.email,
     role: this.role,
     email: this.email,
+    id: this._id
   };
 };
 

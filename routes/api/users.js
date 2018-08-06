@@ -4,9 +4,16 @@ var passport = require('passport');
 var User = mongoose.model('User');
 var UserAssociation = mongoose.model('UserAssociation')
 var auth = require('../auth');
-
+ 
 router.get('/user', auth.required, function(req, res, next){
   User.findById(req.payload.id).then(function(user){
+    if(!user){ return res.sendStatus(401); }
+    return res.json({user: user.toProfileJSON()});
+  }).catch(next);
+});
+
+router.get('/user/profile/:id', auth.required, function(req, res, next){
+  User.findOne({ _id: req.params.id}).then(function(user){
     if(!user){ return res.sendStatus(401); }
     return res.json({user: user.toProfileJSON()});
   }).catch(next);
